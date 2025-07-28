@@ -30,25 +30,22 @@ model.fit(X_train, y_train)
 st.set_page_config(page_title="Prediksi Penyakit Jantung", layout="centered")
 
 # Header dengan logo dan judul
-col1, col2 = st.columns([1, 6])
-with col1:
-    logo = Image.open("199095433.jpg")
-    st.image(logo, width=60)
+st.image("199095433.jpg", width=300, use_column_width=False)
 with col2:
     st.markdown("<h1 style='margin-bottom: 5px;'>Prediksi Penyakit Jantung 🫀</h1>", unsafe_allow_html=True)
     st.write("Masukkan data pasien untuk mengetahui apakah berisiko penyakit jantung.")
 
 # Input data pasien
 st.subheader("Input Data Pasien")
-ca = st.slider("ca (Jumlah pembuluh besar)", 0.0, 4.0, 1.0)
-thal = st.slider("thal (Kondisi thalium scan)", 0.0, 3.0, 2.0)
+ca = st.sidebar("ca (Jumlah pembuluh besar)", 0.0, 4.0, 1.0)
+thal = st.sidebar("thal (Kondisi thalium scan)", 0.0, 3.0, 2.0)
 trestbps = st.number_input("Tekanan darah istirahat (trestbps)", 80.0, 200.0, 120.0)
-oldpeak = st.slider("Oldpeak (ST depression)", 0.0, 6.0, 1.0)
-slope = st.slider("Slope (Kemiringan ST)", 0.0, 2.0, 1.0)
-restecg = st.slider("restecg (Hasil ECG istirahat)", 0.0, 2.0, 1.0)
-exang = st.slider("exang (Angina saat olahraga)", 0.0, 1.0, 1.0)
-chol = st.slider("Kolesterol (chol)", 100.0, 600.0, 200.0)
-fbs = st.slider("fbs (Gula darah puasa > 120mg/dl)", 0.0, 1.0, 1.0)
+oldpeak = st.sidebar("Oldpeak (ST depression)", 0.0, 6.0, 1.0)
+slope = st.sidebar("Slope (Kemiringan ST)", 0.0, 2.0, 1.0)
+restecg = st.sidebar("restecg (Hasil ECG istirahat)", 0.0, 2.0, 1.0)
+exang = st.sidebar("exang (Angina saat olahraga)", 0.0, 1.0, 1.0)
+chol = st.sidebar("Kolesterol (chol)", 100.0, 600.0, 200.0)
+fbs = st.sidebar("fbs (Gula darah puasa > 120mg/dl)", 0.0, 1.0, 1.0)
 
 input_data = np.array([[ca, thal, trestbps, oldpeak, slope, restecg, exang, chol, fbs]])
 input_scaled = scaler.transform(input_data)
