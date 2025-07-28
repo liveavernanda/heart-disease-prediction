@@ -1,59 +1,66 @@
 import streamlit as st
-import pandas as pd
 import numpy as np
+import pandas as pd
 from PIL import Image
-from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
-# Load dataset
-dataset_url = 'https://storage.googleapis.com/dqlab-dataset/heart_disease.csv'
-df = pd.read_csv(dataset_url)
-df.dropna(inplace=True)
+# === Load dataset ===
+df = pd.read_csv("https://storage.googleapis.com/dqlab-dataset/heart_disease.csv")
+df = df.dropna()
 
-# Fitur dan target
-X = df.drop(columns='target')
-y = df['target']
+# === Fitur dan target ===
+X = df.drop("target", axis=1)
+y = df["target"]
 
-# Scaling
+# === Scaling ===
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-# Split data
+# === Split data ===
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
-# Model
+# === Train model ===
 model = DecisionTreeClassifier(criterion='gini', max_depth=30)
 model.fit(X_train, y_train)
 
-# Streamlit App
+# === UI ===
 st.set_page_config(page_title="Prediksi Penyakit Jantung", layout="centered")
 
-# Header dengan logo dan judul
+# === Gambar besar header ===
 st.image("199095433.jpg", width=300, use_column_width=False)
 
-# Input data pasien
-st.subheader("Input Data Pasien")
-ca = st.sidebar("ca (Jumlah pembuluh besar)", 0.0, 4.0, 1.0)
-thal = st.sidebar("thal (Kondisi thalium scan)", 0.0, 3.0, 2.0)
-trestbps = st.number_input("Tekanan darah istirahat (trestbps)", 80.0, 200.0, 120.0)
-oldpeak = st.sidebar("Oldpeak (ST depression)", 0.0, 6.0, 1.0)
-slope = st.sidebar("Slope (Kemiringan ST)", 0.0, 2.0, 1.0)
-restecg = st.sidebar("restecg (Hasil ECG istirahat)", 0.0, 2.0, 1.0)
-exang = st.sidebar("exang (Angina saat olahraga)", 0.0, 1.0, 1.0)
-chol = st.sidebar("Kolesterol (chol)", 100.0, 600.0, 200.0)
-fbs = st.sidebar("fbs (Gula darah puasa > 120mg/dl)", 0.0, 1.0, 1.0)
+# === Judul utama ===
+st.markdown("<h1 style='text-align:center;'>Prediksi Penyakit Jantung 🫀</h1>", unsafe_allow_html=True)
+st.write("Masukkan data pasien untuk mengetahui apakah berisiko penyakit jantung.")
 
+# === Sidebar input ===
+st.sidebar.header("Input Data Pasien")
+
+ca = st.sidebar.slider("ca (Jumlah pembuluh besar)", 0.0, 4.0, step=1.0)
+thal = st.sidebar.slider("thal (Kondisi thalium scan)", 0.0, 3.0, step=1.0)
+trestbps = st.sidebar.number_input("Tekanan darah istirahat (trestbps)", min_value=80.0, max_value=200.0, value=120.0)
+oldpeak = st.sidebar.slider("Oldpeak (ST depression)", 0.0, 6.0, step=0.1)
+slope = st.sidebar.slider("Slope", 0.0, 2.0, step=1.0)
+restecg = st.sidebar.slider("Restecg", 0.0, 2.0, step=1.0)
+exang = st.sidebar.slider("Exercise induced angina (exang)", 0.0, 1.0, step=1.0)
+chol = st.sidebar.number_input("Cholesterol (chol)", min_value=80.0, max_value=600.0, value=200.0)
+fbs = st.sidebar.slider("Fasting blood sugar > 120 mg/dl (fbs)", 0.0, 1.0, step=1.0)
+
+# === Buat array input ===
 input_data = np.array([[ca, thal, trestbps, oldpeak, slope, restecg, exang, chol, fbs]])
 input_scaled = scaler.transform(input_data)
+
+# === Prediksi ===
 prediction = model.predict(input_scaled)
 
-# Hasil prediksi
-st.subheader("Hasil Prediksi")
+# === Output hasil prediksi ===
+st.subheader("Hasil Prediksi:")
 if prediction[0] == 1:
-    st.error("⚠️ Pasien berisiko terkena penyakit jantung.")
+    st.success("Pasien berisiko mengidap penyakit jantung 🫀")
 else:
-    st.success("✅ Pasien tidak berisiko terkena penyakit jantung.")
+    st.error("Pasien tidak berisiko penyakit jantung ❤️")
 
-# Gambar ilustrasi tambahan
-st.image("199095433.jpg", caption="Ilustrasi gejala serangan jantung", use_column_width=True)
+# === Footer ===
+st.caption("Model: Decision Tree Classifier | Akurasi: 81.97%")
