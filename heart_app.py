@@ -34,7 +34,8 @@ st.write("Masukkan data pasien untuk mengetahui apakah berisiko penyakit jantung
 # === Sidebar input ===
 st.sidebar.header("Input Data Pasien")
 age = st.sidebar.slider("Usia (age)", 20, 100, 50)
-sex = st.sidebar.selectbox("Jenis Kelamin (sex)", [0, 1])
+sex_label = st.sidebar.selectbox("Jenis Kelamin", ["Laki-laki", "Perempuan"])
+sex = 1 if sex_label == "Laki-laki" else 0
 cp = st.sidebar.slider("Tipe nyeri dada (cp)", 0, 3, 1)
 trestbps = st.sidebar.number_input("Tekanan darah istirahat (trestbps)", 80, 200, 120)
 chol = st.sidebar.number_input("Kolesterol (chol)", 80, 600, 200)
