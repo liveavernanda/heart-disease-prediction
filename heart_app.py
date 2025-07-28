@@ -16,6 +16,7 @@ data = load_data()
 X = data.drop('target', axis=1)
 y = data['target']
 
+# PCA for training pipeline only
 pca = PCA(n_components=9)
 X_pca = pca.fit_transform(X)
 
@@ -42,10 +43,9 @@ fbs = st.radio("Gula darah > 120 mg/dl (fbs)", [0.0, 1.0])
 
 if st.button("Prediksi Sekarang"):
     input_data = np.array([[ca, thal, trestbps, oldpeak, slope, restecg, exang, chol, fbs]])
-    input_pca = pca.transform(input_data)
-    input_scaled = scaler.transform(input_pca)
+    input_scaled = scaler.transform(input_data)
     pred = model.predict(input_scaled)
-    
+
     if pred[0] == 1:
         st.error("⚠️ Hasil Prediksi: Pasien Berisiko Penyakit Jantung")
     else:
