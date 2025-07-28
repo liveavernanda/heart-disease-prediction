@@ -27,7 +27,7 @@ model.fit(X_train, y_train)
 
 # === UI ===
 st.set_page_config(page_title="Prediksi Penyakit Jantung", layout="centered")
-st.image("199095433.jpg", width=100, use_container_width=True)
+st.image("199095433.jpg", width=300, use_container_width=True)
 st.markdown("<h1 style='text-align:center;'>Prediksi Penyakit Jantung ❤️</h1>", unsafe_allow_html=True)
 st.write("Masukkan data pasien untuk mengetahui apakah berisiko penyakit jantung.")
 
