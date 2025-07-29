@@ -38,8 +38,7 @@ st.sidebar.header("Input Data Pasien")
 
 age = st.sidebar.slider("Usia (age)", 20, 100, 50, help="Usia pasien dalam tahun")
 
-sex_label = st.sidebar.selectbox("Jenis Kelamin", ["Laki-laki", "Perempuan"], help="0 = Perempuan, 1 = Laki-laki")
-sex = 1 if sex_label == "Laki-laki" else 0
+sex = st.sidebar.selectbox("Jenis Kelamin (0 = Perempuan, 1 = Laki-laki)", [0, 1], help="Pilih 0 untuk perempuan, 1 untuk laki-laki")
 
 cp = st.sidebar.slider("Tipe nyeri dada (cp)", 0, 3, 1, help="""
 0 = Typical angina  
